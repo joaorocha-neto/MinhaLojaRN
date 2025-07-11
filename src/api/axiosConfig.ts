@@ -1,5 +1,5 @@
-import axios from 'axios';
-import { obterToken, removerToken } from '../servicoArmazenamento'; 
+import axios from 'axios'
+import { obterToken, removerToken } from '../servicos/servicoArmazenamento';
 
 const api = axios.create({
     baseURL: 'https://fakestoreapi.com/',
@@ -10,7 +10,7 @@ const api = axios.create({
 })
 
 api.interceptors.request.use(
-    async (config: { headers: { Authorization: string; }; }) => {
+    async (config) => {
         const token = await obterToken();
         if (token) {
             config.headers.Authorization = `Bearer ${token}`;
