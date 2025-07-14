@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -8,15 +8,17 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
-} from 'react-native';
-import { obterTodosProdutos } from '../servicos/servicoProdutos';
-import { ProdutoAPI } from '../tipos/api'; // Reutilize a interface
+} from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { obterTodosProdutos } from "../servicos/servicoProdutos";
+import { ProdutoAPI } from "../tipos/api";
 
 interface TelaProdutosProps {
   aoLogout: () => void;
 }
 
 export default function TelaProdutos({ aoLogout }: TelaProdutosProps) {
+  const navegacao = useNavigation();
   const [listaProdutos, setListaProdutos] = useState<ProdutoAPI[]>([]);
   const [produtosFiltrados, setProdutosFiltrados] = useState<ProdutoAPI[]>([]);
   const [carregandoProdutos, setCarregandoProdutos] = useState(true);
@@ -56,7 +58,6 @@ export default function TelaProdutos({ aoLogout }: TelaProdutosProps) {
     }
   }, [termoBusca, listaProdutos]);
 
-  // Efeito para filtrar produtos sempre que o termoBusca ou listaProdutos mudar
   useEffect(() => {
     const produtosFiltradosAtualizados = listaProdutos.filter((produto) =>
       produto.title.toLowerCase().includes(termoBusca.toLowerCase()) ||
@@ -66,15 +67,18 @@ export default function TelaProdutos({ aoLogout }: TelaProdutosProps) {
   }, [termoBusca, listaProdutos]);
 
   const renderizarItemProduto = ({ item }: { item: ProdutoAPI }) => (
-    <View style={estilos.itemProduto}>
+    <TouchableOpacity
+      style={estilos.itemProduto}
+      onPress={() => navegacao.navigate("DetalhesProduto", { produtoId: item.id })}
+    >
       <Image source={{ uri: item.image }} style={estilos.imagemProduto} />
       <View style={estilos.detalhesProduto}>
         <Text style={estilos.tituloProduto}>{item.title}</Text>
         <Text style={estilos.categoriaProduto}>{item.category}</Text>
         <Text style={estilos.precoProduto}>R$ {item.price.toFixed(2)}</Text>
       </View>
-    </View>
-  );
+    </TouchableOpacity>
+  );  
 
   if (carregandoProdutos) {
     return (
