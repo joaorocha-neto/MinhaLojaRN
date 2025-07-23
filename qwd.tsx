@@ -12,7 +12,7 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { obterTodosProdutos } from "../servicos/servicoProdutos";
 import { ProdutoAPI } from "../tipos/api";
-import  { NomeDaRotaBusca } from "./TelaBuscaProdutos";
+import  NomeDaRotaBusca  from "./TelaBuscaProdutos";
 
 interface TelaProdutosProps {
   aoLogout: () => void;
@@ -102,21 +102,7 @@ export default function TelaProdutos({ aoLogout }: TelaProdutosProps) {
   }
 
   return (
-    <View style={estilos.container}>
-      <View style={estilos.cabecalho}>
-        <Text style={estilos.tituloPagina}>Produtos</Text>
-        <TouchableOpacity style={estilos.botaoLogout} onPress={aoLogout}>
-          <Text style={estilos.textoBotao}>Sair</Text>
-        </TouchableOpacity>
-      </View>
-
-      <TextInput
-        style={estilos.inputBusca}
-        placeholder="Pesquisar produtos..."
-        value={termoBusca}
-        onChangeText={setTermoBusca}
-      />
-
+    
       <TouchableOpacity
       style={estilos.botaoFiltro}
       onPress={() => navegacao.navigate("BuscaProduto")}

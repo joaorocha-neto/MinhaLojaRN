@@ -4,9 +4,10 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import TelaLogin from "./src/telas/TelaLogin";
 import TelaProdutos from "./src/telas/TelaProdutos";
-import TelaDetalhesProduto from "./src/telas/TelaDetalhesProduto"; // Importe a nova tela
+import TelaDetalhesProduto from "./src/telas/TelaDetalhesProduto";
 import { obterToken, removerToken } from "./src/servicos/servicoArmazenamento";
 import api from "./src/api/axiosConfig";
+import { NomeDaRotaBusca } from "./src/telas/TelaBuscaProdutos";
 
 const Pilha = createNativeStackNavigator(); // Crie uma instância do Stack Navigator
 
@@ -54,9 +55,12 @@ export default function App() {
             <Pilha.Screen name="DetalhesProduto" options={{ title: "Detalhes do Produto" }}>
               {(props: any) => <TelaDetalhesProduto {...props} />}
             </Pilha.Screen>
+
+            <Pilha.Screen name="BuscaProduto" options={{ title: "Busca" }}>
+              {(props: any) => <NomeDaRotaBusca {...props} />}
+            </Pilha.Screen>
           </Pilha.Group>
         ) : (
-          // Telas acessíveis antes do login
           <Pilha.Group>
             <Pilha.Screen name="Login" options={{ title: "Entrar" }}>
               {(props) => <TelaLogin {...props} aoLoginSucesso={() => setAutenticado(true)} />}

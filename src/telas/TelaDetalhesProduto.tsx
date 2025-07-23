@@ -12,7 +12,6 @@ import { useRoute, useNavigation } from "@react-navigation/native";
 import { obterProdutoPorId } from "../servicos/servicoProdutos";
 import { ProdutoAPI } from "../tipos/api";
 
-// Defina os parâmetros esperados para esta rota
 type DetalhesProdutoRotaParametros = {
   produtoId: number;
 };
