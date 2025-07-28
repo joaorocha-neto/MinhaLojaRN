@@ -7,9 +7,9 @@ import TelaProdutos from "./src/telas/TelaProdutos";
 import TelaDetalhesProduto from "./src/telas/TelaDetalhesProduto";
 import { obterToken, removerToken } from "./src/servicos/servicoArmazenamento";
 import api from "./src/api/axiosConfig";
-import { NomeDaRotaBusca } from "./src/telas/TelaBuscaProdutos";
+import NomeDaRotaBusca from "./src/telas/TelaBuscaProdutos";
 
-const Pilha = createNativeStackNavigator(); // Crie uma instância do Stack Navigator
+const Pilha = createNativeStackNavigator();
 
 export default function App() {
   const [autenticado, setAutenticado] = useState<boolean | null>(null);
@@ -47,7 +47,6 @@ export default function App() {
     <NavigationContainer>
       <Pilha.Navigator screenOptions={{ headerShown: false }}>
         {autenticado ? (
-          // Telas acessíveis após o login
           <Pilha.Group>
             <Pilha.Screen name="Produtos" options={{ title: "Lista de Produtos" }}>
               {(props) => <TelaProdutos {...props} aoLogout={lidarComLogout} />}

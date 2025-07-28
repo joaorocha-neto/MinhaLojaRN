@@ -12,7 +12,6 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { obterTodosProdutos } from "../servicos/servicoProdutos";
 import { ProdutoAPI } from "../tipos/api";
-import  { NomeDaRotaBusca } from "./TelaBuscaProdutos";
 
 interface TelaProdutosProps {
   aoLogout: () => void;
@@ -110,19 +109,11 @@ export default function TelaProdutos({ aoLogout }: TelaProdutosProps) {
         </TouchableOpacity>
       </View>
 
-      <TextInput
-        style={estilos.inputBusca}
-        placeholder="Pesquisar produtos..."
-        value={termoBusca}
-        onChangeText={setTermoBusca}
-      />
-
       <TouchableOpacity
       style={estilos.botaoFiltro}
       onPress={() => navegacao.navigate("BuscaProduto")}
       >
-        
-      </TouchableOpacity>
+      
 
       <FlatList
         data={produtosFiltrados}
@@ -182,8 +173,8 @@ const estilos = StyleSheet.create({
     borderRadius: 8,
     marginBottom: 10,
     alignItems: 'center',
-    backgroundColor: '#fff', // Fundo branco para os itens
-    shadowColor: '#000', // Sombra para dar um efeito de elevação
+    backgroundColor: '#fff',
+    shadowColor: '#000', 
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 3,
@@ -194,26 +185,26 @@ const estilos = StyleSheet.create({
     height: 60,
     borderRadius: 5,
     marginRight: 15,
-    resizeMode: 'contain', // Garante que a imagem se ajuste sem cortar
+    resizeMode: 'contain',
   },
   detalhesProduto: {
     flex: 1,
   },
   tituloProduto: {
     fontSize: 16,
-    fontWeight: 'bold', // Negrito para o título do produto
+    fontWeight: 'bold',
     marginBottom: 5,
   },
   categoriaProduto: {
     fontSize: 12,
     marginBottom: 5,
     opacity: 0.7,
-    fontStyle: 'italic', // Itálico para a categoria
+    fontStyle: 'italic',
   },
   precoProduto: {
     fontSize: 15,
     fontWeight: 'bold',
-    color: '#28a745', // Cor verde para o preço
+    color: '#28a745',
   },
   listaConteudo: {
     paddingBottom: 20,
@@ -221,14 +212,15 @@ const estilos = StyleSheet.create({
   mensagemErro: {
     textAlign: 'center',
     marginBottom: 20,
-    color: '#dc3545', // Cor vermelha para a mensagem de erro
+    color: '#dc3545',
     fontSize: 16,
   },
   botaoFiltro: {
-    height: 48,
-    width: 48,
-    marginLeft: "86%",
-    margin: 10,
-    backgroundColor: "#000"
+   borderWidth: 2,
+   marginLeft: "96%",
+   borderRadius: "50%",
+   height: 40,
+   width: 40,
+   margin: 12
   },
 });
