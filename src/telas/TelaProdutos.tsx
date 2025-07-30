@@ -109,10 +109,11 @@ export default function TelaProdutos({ aoLogout }: TelaProdutosProps) {
         </TouchableOpacity>
       </View>
 
-      <TouchableOpacity
+      <TouchableOpacity 
       style={estilos.botaoFiltro}
-      onPress={() => navegacao.navigate("BuscaProduto")}
-      >
+      onPress={() => navegacao.navigate("BuscaProduto")}>
+      <Image style={estilos.botao}  source={require("../IMG/Pesquisar.png")}></Image>
+      </TouchableOpacity>
       
 
       <FlatList
@@ -217,10 +218,15 @@ const estilos = StyleSheet.create({
   },
   botaoFiltro: {
    borderWidth: 2,
-   marginLeft: "96%",
+   marginLeft: "1%",
    borderRadius: "50%",
    height: 40,
    width: 40,
    margin: 12
   },
+  
+  botao: {
+    height: 34,
+    width: 34
+  }
 });

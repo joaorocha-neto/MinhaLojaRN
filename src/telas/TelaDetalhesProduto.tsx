@@ -85,7 +85,7 @@ export default function TelaDetalhesProduto() {
         style={estilos.botaoVoltar}
         onPress={() => navegacao.goBack()}
       >
-        <Text style={estilos.textoBotao}>{"< Voltar"}</Text>
+      <Image style={estilos.botao}  source={require("../IMG/Voltar.png")}></Image>
       </TouchableOpacity>
       <Image source={{ uri: produto.image }} style={estilos.imagemProduto} />
       <Text style={estilos.titulo}>{produto.title}</Text>
@@ -175,4 +175,8 @@ const estilos = StyleSheet.create({
     color: "red",
     fontSize: 16,
   },
+  botao: {
+    height: 34,
+    width: 34
+  }
 });

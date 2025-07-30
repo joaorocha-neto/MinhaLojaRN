@@ -1,17 +1,16 @@
-import React from "react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
   ActivityIndicator,
   StyleSheet,
   Image,
-  ScrollView,
   TouchableOpacity,
   TextInput,
   FlatList,
+  ToastAndroid,
 } from "react-native";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import { ProdutoAPI } from "../tipos/api";
 import { obterTodosProdutos } from "../servicos/servicoProdutos";
 
@@ -19,7 +18,7 @@ interface TelaProdutosProps {
   aoLogout: () => void;
 }
 
-export default function NomeDaRotaBusca({ aoLogout }: TelaProdutosProps) {
+export default function TelaBuscaProdutos({ aoLogout }: TelaProdutosProps) {
   const navegacao = useNavigation();
   const [listaProdutos, setListaProdutos] = useState<ProdutoAPI[]>([]);
   const [produtosFiltrados, setProdutosFiltrados] = useState<ProdutoAPI[]>([]);
@@ -34,38 +33,30 @@ export default function NomeDaRotaBusca({ aoLogout }: TelaProdutosProps) {
       try {
         const produtos = await obterTodosProdutos();
         setListaProdutos(produtos);
-        setProdutosFiltrados(produtos); // Inicialmente, a lista filtrada é a lista completa
+        setProdutosFiltrados(produtos);
       } catch (erro: any) {
         setMensagemErro(erro.message || 'Não foi possível carregar os produtos.');
-        // O interceptor do Axios já lida com 401, mas você pode querer um fallback aqui
         if (erro.message.includes('Sessão expirada')) {
-          aoLogout(); // Força o logout se a mensagem indicar sessão expirada
+          aoLogout();
         }
       } finally {
         setCarregandoProdutos(false);
       }
     };
     carregarProdutos();
-  }, [aoLogout]); // aoLogout como dependência para garantir que a função esteja atualizada
+  }, [aoLogout]);
 
   useEffect(() => {
-    if (termoBusca === '') {
-      setProdutosFiltrados(listaProdutos);
-    } else {
-      const produtosEncontrados = listaProdutos.filter((produto) =>
-        produto.title.toLowerCase().includes(termoBusca.toLowerCase()) ||
-        produto.category.toLowerCase().includes(termoBusca.toLowerCase())
-      );
-      setProdutosFiltrados(produtosEncontrados);
-    }
-  }, [termoBusca, listaProdutos]);
-
-  useEffect(() => {
-    const produtosFiltradosAtualizados = listaProdutos.filter((produto) =>
+    const produtosEncontrados = listaProdutos.filter((produto) =>
       produto.title.toLowerCase().includes(termoBusca.toLowerCase()) ||
       produto.category.toLowerCase().includes(termoBusca.toLowerCase())
     );
-    setProdutosFiltrados(produtosFiltradosAtualizados);
+
+    setProdutosFiltrados(produtosEncontrados);
+
+    if (termoBusca !== '' && produtosEncontrados.length === 0) {
+      ToastAndroid.show(`Nenhum resultado encontrado para "${termoBusca}"`, ToastAndroid.SHORT);
+    }
   }, [termoBusca, listaProdutos]);
 
   const renderizarItemProduto = ({ item }: { item: ProdutoAPI }) => (
@@ -80,7 +71,7 @@ export default function NomeDaRotaBusca({ aoLogout }: TelaProdutosProps) {
         <Text style={estilos.precoProduto}>R$ {item.price.toFixed(2)}</Text>
       </View>
     </TouchableOpacity>
-  );  
+  );
 
   if (carregandoProdutos) {
     return (
@@ -103,7 +94,6 @@ export default function NomeDaRotaBusca({ aoLogout }: TelaProdutosProps) {
   }
 
   return (
-
     <View style={estilos.container}>
       <View style={estilos.cabecalho}>
         <Text style={estilos.tituloPagina}>Produtos</Text>
@@ -113,10 +103,10 @@ export default function NomeDaRotaBusca({ aoLogout }: TelaProdutosProps) {
       </View>
 
       <TouchableOpacity
-            style={estilos.botaoFiltro}
-            onPress={() => navegacao.navigate("Produtos")}
-            >
-            {/* <Image source={{"uri":"C:\Users\a95574143\Downloads\Minhaloja\IMG"}}></Image> */}
+        style={estilos.botaoFiltro}
+        onPress={() => navegacao.navigate("Produtos")}
+      >
+        <Image style={estilos.botao} source={require("../IMG/Voltar.png")} />
       </TouchableOpacity>
 
       <TextInput
@@ -125,7 +115,7 @@ export default function NomeDaRotaBusca({ aoLogout }: TelaProdutosProps) {
         value={termoBusca}
         onChangeText={setTermoBusca}
       />
-        
+
       <FlatList
         data={produtosFiltrados}
         keyExtractor={(item) => item.id.toString()}
@@ -176,8 +166,8 @@ const estilos = StyleSheet.create({
     borderRadius: 8,
     marginBottom: 10,
     alignItems: 'center',
-    backgroundColor: '#fff', // Fundo branco para os itens
-    shadowColor: '#000', // Sombra para dar um efeito de elevação
+    backgroundColor: '#fff',
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 3,
@@ -188,26 +178,26 @@ const estilos = StyleSheet.create({
     height: 60,
     borderRadius: 5,
     marginRight: 15,
-    resizeMode: 'contain', // Garante que a imagem se ajuste sem cortar
+    resizeMode: 'contain',
   },
   detalhesProduto: {
     flex: 1,
   },
   tituloProduto: {
     fontSize: 16,
-    fontWeight: 'bold', // Negrito para o título do produto
+    fontWeight: 'bold',
     marginBottom: 5,
   },
   categoriaProduto: {
     fontSize: 12,
     marginBottom: 5,
     opacity: 0.7,
-    fontStyle: 'italic', // Itálico para a categoria
+    fontStyle: 'italic',
   },
   precoProduto: {
     fontSize: 15,
     fontWeight: 'bold',
-    color: '#28a745', // Cor verde para o preço
+    color: '#28a745',
   },
   listaConteudo: {
     paddingBottom: 20,
@@ -215,13 +205,13 @@ const estilos = StyleSheet.create({
   mensagemErro: {
     textAlign: 'center',
     marginBottom: 20,
-    color: '#dc3545', // Cor vermelha para a mensagem de erro
+    color: '#dc3545',
     fontSize: 16,
   },
   botaoFiltro: {
     height: 48,
     width: 48,
-    marginLeft: "96%",
+    marginLeft: "90%",
     margin: 10,
   },
   inputBusca: {
@@ -232,9 +222,8 @@ const estilos = StyleSheet.create({
     borderRadius: 5,
     marginBottom: 15,
   },
-
+  botao: {
+    height: 34,
+    width: 34,
+  },
 });
-
-function aoLogout() {
-  throw new Error("Function not implemented.");
-}
