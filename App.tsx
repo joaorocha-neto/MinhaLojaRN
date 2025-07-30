@@ -58,6 +58,9 @@ export default function App() {
             <Pilha.Screen name="BuscaProduto" options={{ title: "Busca" }}>
               {(props: any) => <NomeDaRotaBusca {...props} />}
             </Pilha.Screen>
+            <Pilha.Screen name="Admin" options={{ title: "Admin" }}>
+              {(props: any) => <TelaDetalhesProduto {...props} />}
+            </Pilha.Screen>
           </Pilha.Group>
         ) : (
           <Pilha.Group>
