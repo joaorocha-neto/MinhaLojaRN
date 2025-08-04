@@ -104,7 +104,7 @@ export default function TelaBuscaProdutos({ aoLogout }: TelaProdutosProps) {
 
       <TouchableOpacity
         style={estilos.botaoFiltro}
-        onPress={() => navegacao.navigate("Produtos")}
+        onPress={() => navegacao.goBack()}
       >
         <Image style={estilos.botao} source={require("../IMG/Voltar.png")} />
       </TouchableOpacity>

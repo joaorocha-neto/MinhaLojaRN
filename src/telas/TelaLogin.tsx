@@ -11,7 +11,7 @@ import { realizarLogin } from '../servicos/servicoAutenticacao';
 import { salvarToken } from '../servicos/servicoArmazenamento';
 
 interface TelaLoginProps {
-  aoLoginSucesso: () => void; // Função para notificar o App.tsx do sucesso
+  aoLoginSucesso: () => void;
 }
 
 export default function TelaLogin({ aoLoginSucesso }: TelaLoginProps) {
@@ -24,7 +24,6 @@ export default function TelaLogin({ aoLoginSucesso }: TelaLoginProps) {
     setCarregando(true);
     setMensagemErro('');
     try {
-      // Credenciais de teste da Fake Store API: 'mor_2314' e '83r5^_'(senha)
       const resposta = await realizarLogin({ usuario: nomeUsuario, senha: senhaUsuario });
       await salvarToken(resposta.token);
       aoLoginSucesso();

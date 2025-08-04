@@ -8,6 +8,7 @@ import TelaDetalhesProduto from "./src/telas/TelaDetalhesProduto";
 import { obterToken, removerToken } from "./src/servicos/servicoArmazenamento";
 import api from "./src/api/axiosConfig";
 import NomeDaRotaBusca from "./src/telas/TelaBuscaProdutos";
+import TelaAdmin from "./src/telas/TelaAdminProdutos";
 
 const Pilha = createNativeStackNavigator();
 
@@ -59,7 +60,7 @@ export default function App() {
               {(props: any) => <NomeDaRotaBusca {...props} />}
             </Pilha.Screen>
             <Pilha.Screen name="Admin" options={{ title: "Admin" }}>
-              {(props: any) => <TelaDetalhesProduto {...props} />}
+              {(props: any) => <TelaAdmin {...props} />}
             </Pilha.Screen>
           </Pilha.Group>
         ) : (

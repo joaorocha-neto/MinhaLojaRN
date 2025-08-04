@@ -40,7 +40,7 @@ export default function TelaDetalhesProduto() {
       }
     };
     carregarDetalhesProduto();
-  }, [produtoId]); // Recarrega se o ID do produto mudar
+  }, [produtoId]);
 
   if (carregando) {
     return (
@@ -96,7 +96,6 @@ export default function TelaDetalhesProduto() {
       <View style={estilos.ratingContainer}>
         <Text style={estilos.ratingTexto}>Avaliação: {produto.rating.rate} ({produto.rating.count} votos)</Text>
       </View>
-      {/* Botão de edição será adicionado em um passo futuro */}
     </ScrollView>
   );
 }

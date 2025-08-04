@@ -32,19 +32,18 @@ export default function TelaProdutos({ aoLogout }: TelaProdutosProps) {
       try {
         const produtos = await obterTodosProdutos();
         setListaProdutos(produtos);
-        setProdutosFiltrados(produtos); // Inicialmente, a lista filtrada é a lista completa
+        setProdutosFiltrados(produtos);
       } catch (erro: any) {
         setMensagemErro(erro.message || 'Não foi possível carregar os produtos.');
-        // O interceptor do Axios já lida com 401, mas você pode querer um fallback aqui
         if (erro.message.includes('Sessão expirada')) {
-          aoLogout(); // Força o logout se a mensagem indicar sessão expirada
+          aoLogout();
         }
       } finally {
         setCarregandoProdutos(false);
       }
     };
     carregarProdutos();
-  }, [aoLogout]); // aoLogout como dependência para garantir que a função esteja atualizada
+  }, [aoLogout]);
 
   useEffect(() => {
     if (termoBusca === '') {
@@ -154,17 +153,17 @@ const estilos = StyleSheet.create({
   },
   tituloPagina: {
     fontSize: 26,
-    fontWeight: 'bold', // Adicionei negrito para o título da página
+    fontWeight: 'bold',
   },
   botaoLogout: {
     paddingVertical: 8,
     paddingHorizontal: 15,
     borderRadius: 5,
-    backgroundColor: '#dc3545', // Cor vermelha para o botão de sair
+    backgroundColor: '#dc3545',
   },
   textoBotao: {
     fontSize: 14,
-    color: '#fff', // Texto branco para o botão de sair
+    color: '#fff',
   },
   inputBusca: {
     width: '100%',
